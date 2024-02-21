@@ -6,6 +6,7 @@ import {
   Post,
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { hash } from 'bcryptjs'
 
 @Controller('/accounts')
 export class CreateAccountController {
@@ -25,8 +26,10 @@ export class CreateAccountController {
       )
     }
 
+    const hashedPassword = await hash(password, 8)
+
     await this.prisma.user.create({
-      data: { email, password, name },
+      data: { email, password: hashedPassword, name },
     })
   }
 }
