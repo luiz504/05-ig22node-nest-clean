@@ -17,6 +17,10 @@
     "strict": true,
     "strictBindCallApply": false,
     "strictNullChecks": true,
-    "target": "ES2021"
+    "target": "es2022",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "types": ["vitest/globals"]
   }
 }
