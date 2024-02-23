@@ -1,6 +1,4 @@
 {
-    "cSpell.words": [
-        "nestjs",
-        "unplugin"
-    ]
+  "cSpell.words": ["nestjs", "unplugin"],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
