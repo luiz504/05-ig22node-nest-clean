@@ -4,7 +4,7 @@ import { expect } from 'vitest'
 import request from 'supertest'
 import { JwtService } from '@nestjs/jwt'
 
-import { PrismaService } from '~/infra/prisma/prisma.service'
+import { PrismaService } from '~/infra/database/prisma/prisma.service'
 import { AppModule } from '~/infra/app.module'
 
 describe('Fetch Recent Questions (e2e)', () => {
