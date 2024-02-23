@@ -1,11 +1,13 @@
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
-import { AppModule } from '~/app.module'
-import request from 'supertest'
-import { PrismaService } from '~/prisma/prisma.service'
-import { JwtService } from '@nestjs/jwt'
 import { expect } from 'vitest'
-describe('Create Question (e2e)', () => {
+import request from 'supertest'
+import { JwtService } from '@nestjs/jwt'
+
+import { PrismaService } from '~/infra/database/prisma/prisma.service'
+import { AppModule } from '~/infra/app.module'
+
+describe('Fetch Recent Questions (e2e)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -19,7 +21,7 @@ describe('Create Question (e2e)', () => {
     jwt = moduleRef.get(JwtService)
     await app.init()
   })
-  test('[POST] /questions', async () => {
+  test('[GET] /questions', async () => {
     // Prepare
     const user = await prisma.user.create({
       data: {
@@ -29,20 +31,36 @@ describe('Create Question (e2e)', () => {
       },
     })
     const accessToken = jwt.sign({ sub: user.id })
-    const data = { title: 'Some question', content: 'Question Content' }
 
+    await prisma.question.createMany({
+      data: [
+        {
+          title: 'Question 01',
+          content: 'Question Content',
+          slug: 'question-01',
+          authorId: user.id,
+        },
+        {
+          title: 'Question 02',
+          content: 'Question Content',
+          slug: 'question-02',
+          authorId: user.id,
+        },
+      ],
+    })
     // Actions
     const response = await request(app.getHttpServer())
-      .post('/questions')
+      .get('/questions')
       .set('Authorization', 'Bearer ' + accessToken)
-      .send(data)
+      .send()
 
     // Assert
-    expect(response.statusCode).toBe(201)
-    const questionOnDatabase = await prisma.question.findFirst({
-      where: { title: data.title },
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      questions: [
+        expect.objectContaining({ title: 'Question 01' }),
+        expect.objectContaining({ title: 'Question 02' }),
+      ],
     })
-
-    expect(questionOnDatabase).toBeTruthy()
   })
 })

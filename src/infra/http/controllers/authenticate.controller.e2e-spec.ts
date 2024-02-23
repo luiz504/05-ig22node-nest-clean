@@ -1,9 +1,10 @@
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
-import { AppModule } from '~/app.module'
-import request from 'supertest'
-import { PrismaService } from '~/prisma/prisma.service'
 import { hash } from 'bcryptjs'
+import request from 'supertest'
+
+import { PrismaService } from '~/infra/database/prisma/prisma.service'
+import { AppModule } from '~/infra/app.module'
 describe('Create Session (e2e)', () => {
   let app: INestApplication
   let prisma: PrismaService
