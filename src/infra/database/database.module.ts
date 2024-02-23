@@ -19,6 +19,7 @@ import { PrismaAnswerCommentsRepository } from './prisma/repositories/prisma-ans
       provide: QuestionsRepository,
       useClass: PrismaQuestionsRepository,
     },
+
     PrismaQuestionAttachmentsRepository,
     PrismaQuestionCommentsRepository,
     PrismaAnswersRepository,
