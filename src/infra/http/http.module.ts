@@ -13,6 +13,7 @@ import { FetchRecentQuestionsController } from '~/infra/http/controllers/fetch-r
 import { CreateQuestionUseCase } from '~/domain/forum/application/use-cases/question/create-question'
 import { FetchRecentQuestionsUseCase } from '~/domain/forum/application/use-cases/question/fetch-recent-questions'
 import { AuthenticateStudentUseCase } from '~/domain/forum/application/use-cases/account/authenticate-student'
+import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/account/register-student'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,6 +24,7 @@ import { AuthenticateStudentUseCase } from '~/domain/forum/application/use-cases
     FetchRecentQuestionsController,
   ],
   providers: [
+    RegisterStudentUseCase,
     CreateQuestionUseCase,
     FetchRecentQuestionsUseCase,
     AuthenticateStudentUseCase,
