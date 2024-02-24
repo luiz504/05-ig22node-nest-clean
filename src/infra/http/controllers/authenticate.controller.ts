@@ -8,10 +8,11 @@ import {
 } from '@nestjs/common'
 import { z } from 'zod'
 
-import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
-
 import { AuthenticateStudentUseCase } from '~/domain/forum/application/use-cases/account/authenticate-student'
 import { WrongCredentialsError } from '~/domain/forum/application/use-cases/errors/wrong-credentials-error'
+
+import { Public } from '~/infra/auth/public'
+import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -20,6 +21,7 @@ const authenticateBodySchema = z.object({
 
 type AuthenticateBody = z.infer<typeof authenticateBodySchema>
 @Controller('/sessions')
+@Public()
 export class AuthenticateController {
   constructor(
     private readonly authenticateUseCase: AuthenticateStudentUseCase,

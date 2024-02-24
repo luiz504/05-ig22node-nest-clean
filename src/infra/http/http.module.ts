@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+
 // Modules
 import { CryptographyModule } from '~/infra/cryptography/cryptography.module'
 import { DatabaseModule } from '~/infra/database/database.module'

@@ -7,10 +7,12 @@ import {
   UsePipes,
   BadRequestException,
 } from '@nestjs/common'
-
 import { z } from 'zod'
-import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/account/register-student'
 
+import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/account/register-student'
+import { StudentAlreadyExistsError } from '~/domain/forum/application/use-cases/errors/student-already-exists-error'
+
+import { Public } from '~/infra/auth/public'
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 
 const createAccountBodySchema = z.object({
@@ -21,6 +23,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBody = z.infer<typeof createAccountBodySchema>
 @Controller('/accounts')
+@Public()
 export class CreateAccountController {
   constructor(private readonly registerStudent: RegisterStudentUseCase) {}
   @Post()
@@ -35,7 +38,7 @@ export class CreateAccountController {
       const error = result.value
 
       switch (error.constructor) {
-        case ConflictException:
+        case StudentAlreadyExistsError:
           throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)
