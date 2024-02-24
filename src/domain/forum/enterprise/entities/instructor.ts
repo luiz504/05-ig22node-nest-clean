@@ -3,10 +3,20 @@ import { UniqueEntityID } from '~/core/entities/unique-entity-id'
 
 interface InstructorProps {
   name: string
+  email: string
+  password: string
 }
 export class Instructor extends Entity<InstructorProps> {
   get name(): string {
-    return this.name
+    return this.props.name
+  }
+
+  get email(): string {
+    return this.props.email
+  }
+
+  get password(): string {
+    return this.props.password
   }
 
   static create(props: InstructorProps, id?: UniqueEntityID) {
