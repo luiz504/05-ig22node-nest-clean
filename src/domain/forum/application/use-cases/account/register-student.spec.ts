@@ -1,42 +1,42 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/account/register-student'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
+import { FakeHasher } from 'test/cryptography/fake-hasher'
 
-import { CreateQuestionUseCase } from '../question/create-question'
-import { UniqueEntityID } from '~/core/entities/unique-entity-id'
-import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
-
-let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let inMemoryStudentsRepository: InMemoryStudentsRepository
+let fakerHasher: FakeHasher
 // SUT: System under test
-let sut: CreateQuestionUseCase
-describe('Create Question Use Case', () => {
+let sut: RegisterStudentUseCase
+describe('Register Student Use Case', () => {
   beforeEach(() => {
-    inMemoryQuestionAttachmentsRepository =
-      new InMemoryQuestionAttachmentsRepository()
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentsRepository,
-    )
-    sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+    fakerHasher = new FakeHasher()
+    sut = new RegisterStudentUseCase(inMemoryStudentsRepository, fakerHasher)
   })
-  it('should be able to create a question', async () => {
+  it('should be able to register a new Student', async () => {
     // Act
     const result = await sut.execute({
-      authorId: 'some-author-id',
-      content: 'Some content',
-      title: 'Some Question',
-      attachmentIds: ['1', '2'],
+      name: 'John doe',
+      email: 'john@example.com',
+      password: '123456',
     })
 
     // Assert
     expect(result.isRight()).toBe(true)
-    expect(inMemoryQuestionsRepository.items[0]).toEqual(result.value?.question)
-    expect(
-      inMemoryQuestionsRepository.items[0].attachments.currentItems,
-    ).toHaveLength(2)
-    expect(
-      inMemoryQuestionsRepository.items[0].attachments.currentItems,
-    ).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityID('2') }),
-    ])
+    expect(result.value).toEqual({
+      student: inMemoryStudentsRepository.items[0],
+    })
+  })
+
+  it('should hash student password', async () => {
+    // Act
+    const result = await sut.execute({
+      name: 'John doe',
+      email: 'john@example.com',
+      password: '123456',
+    })
+    const hashedPassword = await fakerHasher.hash('123456')
+    // Assert
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryStudentsRepository.items[0].password).toEqual(hashedPassword)
   })
 })
