@@ -23,12 +23,15 @@ export class PrismaAnswersRepository implements AnswersRepository {
     return PrismaAnswerMapper.toDomain(answer)
   }
 
-  async findManyByAnswerId(
-    answerId: string,
+  async findManyByQuestionId(
+    questionId: string,
     { page }: PaginationParams,
   ): Promise<Answer[]> {
     const perPage = 20
     const answers = await this.prisma.answer.findMany({
+      where: {
+        questionId,
+      },
       orderBy: {
         createdAt: 'desc',
       },

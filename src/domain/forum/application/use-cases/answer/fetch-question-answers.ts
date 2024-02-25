@@ -1,4 +1,7 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, right } from '~/core/either'
+
 import { AnswersRepository } from '~/domain/forum/application/repositories/answers-repository'
 import { Answer } from '~/domain/forum/enterprise/entities/answer'
 
@@ -12,7 +15,7 @@ type FetchQuestionAnswersUseCaseResponse = Either<
     answers: Answer[]
   }
 >
-
+@Injectable()
 export class FetchQuestionAnswersUseCase {
   constructor(private answersRepository: AnswersRepository) {}
 
@@ -20,7 +23,7 @@ export class FetchQuestionAnswersUseCase {
     questionId,
     page,
   }: FetchQuestionAnswersUseCaseRequest): Promise<FetchQuestionAnswersUseCaseResponse> {
-    const answers = await this.answersRepository.findManyByAnswerId(
+    const answers = await this.answersRepository.findManyByQuestionId(
       questionId,
       {
         page,
