@@ -23,12 +23,15 @@ export class PrismaAnswersRepository implements AnswersRepository {
     return PrismaAnswerMapper.toDomain(answer)
   }
 
-  async findManyByAnswerId(
-    answerId: string,
+  async findManyByQuestionId(
+    questionId: string,
     { page }: PaginationParams,
   ): Promise<Answer[]> {
     const perPage = 20
     const answers = await this.prisma.answer.findMany({
+      where: {
+        questionId,
+      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -42,7 +45,7 @@ export class PrismaAnswersRepository implements AnswersRepository {
   async save(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPersistance(answer)
 
-    await this.prisma.answer.create({ data })
+    await this.prisma.answer.update({ where: { id: data.id }, data })
   }
 
   async delete(answer: Answer): Promise<void> {

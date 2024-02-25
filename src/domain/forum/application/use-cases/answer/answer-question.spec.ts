@@ -20,7 +20,7 @@ describe('Create Answer Question Use Case', () => {
   it('should be able to create a question', async () => {
     // Act
     const result = await sut.execute({
-      instructorId: 'instructor-id',
+      authorId: 'author-id',
       questionId: 'question-id',
       content: 'Some content',
       attachmentIds: ['1', '2'],

@@ -4,6 +4,7 @@ import { NotAllowedError } from '~/core/errors/not-allowed-error'
 import { Question } from '~/domain/forum/enterprise/entities/question'
 import { QuestionsRepository } from '~/domain/forum/application/repositories/question-repository'
 import { AnswersRepository } from '~/domain/forum/application/repositories/answers-repository'
+import { Injectable } from '@nestjs/common'
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
   authorId: string
@@ -15,7 +16,7 @@ type ChooseQuestionBestAnswerUseCaseResponse = Either<
     question: Question
   }
 >
-
+@Injectable()
 export class ChooseQuestionBestAnswerUseCase {
   constructor(
     private questionRepository: QuestionsRepository,
