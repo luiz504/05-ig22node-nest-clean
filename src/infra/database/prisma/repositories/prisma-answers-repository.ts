@@ -3,28 +3,49 @@ import { Injectable } from '@nestjs/common'
 import { PaginationParams } from '~/core/repositories/pagination-params'
 import { AnswersRepository } from '~/domain/forum/application/repositories/answers-repository'
 import { Answer } from '~/domain/forum/enterprise/entities/answer'
+import { PrismaAnswerMapper } from '~/infra/database/prisma/mappers/prisma-answer-mapper'
+import { PrismaService } from '~/infra/database/prisma/prisma.service'
 @Injectable()
 export class PrismaAnswersRepository implements AnswersRepository {
-  create(answer: Answer): Promise<void> {
-    throw new Error('Method not implemented.')
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(answer: Answer): Promise<void> {
+    const data = PrismaAnswerMapper.toPersistance(answer)
+
+    await this.prisma.answer.create({ data })
   }
 
-  findById(id: string): Promise<Answer | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Answer | null> {
+    const answer = await this.prisma.answer.findUnique({ where: { id } })
+
+    if (!answer) return null
+
+    return PrismaAnswerMapper.toDomain(answer)
   }
 
-  findManyByQuestionId(
-    questionId: string,
-    params: PaginationParams,
+  async findManyByAnswerId(
+    answerId: string,
+    { page }: PaginationParams,
   ): Promise<Answer[]> {
-    throw new Error('Method not implemented.')
+    const perPage = 20
+    const answers = await this.prisma.answer.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: perPage,
+      skip: (page - 1) * perPage,
+    })
+
+    return answers.map(PrismaAnswerMapper.toDomain)
   }
 
-  delete(answer: Answer): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(answer: Answer): Promise<void> {
+    const data = PrismaAnswerMapper.toPersistance(answer)
+
+    await this.prisma.answer.create({ data })
   }
 
-  save(answer: Answer): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(answer: Answer): Promise<void> {
+    await this.prisma.answer.delete({ where: { id: answer.id.toString() } })
   }
 }

@@ -1,6 +1,6 @@
 import { Either, right } from '~/core/either'
-import { Answer } from '../../../enterprise/entities/answer'
-import { AnswersRepository } from '../../repositories/answers-repository'
+import { AnswersRepository } from '~/domain/forum/application/repositories/answers-repository'
+import { Answer } from '~/domain/forum/enterprise/entities/answer'
 
 interface FetchQuestionAnswersUseCaseRequest {
   questionId: string
@@ -20,7 +20,7 @@ export class FetchQuestionAnswersUseCase {
     questionId,
     page,
   }: FetchQuestionAnswersUseCaseRequest): Promise<FetchQuestionAnswersUseCaseResponse> {
-    const answers = await this.answersRepository.findManyByQuestionId(
+    const answers = await this.answersRepository.findManyByAnswerId(
       questionId,
       {
         page,

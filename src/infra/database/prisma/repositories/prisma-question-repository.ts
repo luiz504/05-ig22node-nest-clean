@@ -11,6 +11,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
   async findById(id: string): Promise<Question | null> {
     const question = await this.prisma.question.findUnique({ where: { id } })
+
     if (!question) return null
 
     return PrismaQuestionMapper.toDomain(question)
@@ -49,8 +50,6 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   }
 
   async delete(question: Question): Promise<void> {
-    const data = PrismaQuestionMapper.toPersistance(question)
-
-    await this.prisma.question.delete({ where: { id: data.id } })
+    await this.prisma.question.delete({ where: { id: question.id.toString() } })
   }
 }
