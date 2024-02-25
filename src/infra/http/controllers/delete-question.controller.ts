@@ -13,17 +13,20 @@ import { DeleteQuestionUseCase } from '~/domain/forum/application/use-cases/ques
 import { CurrentUser } from '~/infra/auth/current-user-decorator'
 import { UserPayload } from '~/infra/auth/jwt.strategy'
 
-@Controller('/questions/:id')
+@Controller('/questions/:questionId')
 export class DeleteQuestionController {
   constructor(private readonly deleteQuestion: DeleteQuestionUseCase) {}
 
   @Delete()
   @HttpCode(204)
-  async handle(@CurrentUser() user: UserPayload, @Param('id') id: string) {
+  async handle(
+    @CurrentUser() user: UserPayload,
+    @Param('questionId') questionId: string,
+  ) {
     const { sub: userId } = user
 
     const result = await this.deleteQuestion.execute({
-      questionId: id,
+      questionId,
       authorId: userId,
     })
 
