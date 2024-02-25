@@ -45,7 +45,7 @@ export class PrismaAnswerCommentsRepository
   async create(answerComment: AnswerComment): Promise<void> {
     const data = PrismaAnswerCommentMapper.toPersistance(answerComment)
 
-    await this.prisma.comment.update({ where: { id: data.id }, data })
+    await this.prisma.comment.create({ data })
   }
 
   async delete(answerComment: AnswerComment): Promise<void> {

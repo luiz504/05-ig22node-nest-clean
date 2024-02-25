@@ -13,18 +13,20 @@ import { CurrentUser } from '~/infra/auth/current-user-decorator'
 import { UserPayload } from '~/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 
-const createAnswerQuestionSchema = z.object({ content: z.string().min(1) })
+const createAnswerQuestionBodySchema = z.object({ content: z.string().min(1) })
 
-type CreateAnswerQuestionSchema = z.infer<typeof createAnswerQuestionSchema>
+type CreateAnswerQuestionBodySchema = z.infer<
+  typeof createAnswerQuestionBodySchema
+>
 
-const bodyValidationPipe = new ZodValidationPipe(createAnswerQuestionSchema)
+const bodyValidationPipe = new ZodValidationPipe(createAnswerQuestionBodySchema)
 @Controller('/questions/:questionId/answers')
 export class AnswerQuestionController {
   constructor(private readonly createAnswer: AnswerQuestionUseCase) {}
 
   @Post()
   async handle(
-    @Body(bodyValidationPipe) body: CreateAnswerQuestionSchema,
+    @Body(bodyValidationPipe) body: CreateAnswerQuestionBodySchema,
     @CurrentUser() user: UserPayload,
     @Param('questionId') questionId: string,
   ) {
