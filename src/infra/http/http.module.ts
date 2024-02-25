@@ -9,12 +9,14 @@ import { AuthenticateController } from '~/infra/http/controllers/authenticate.co
 import { CreateAccountController } from '~/infra/http/controllers/create-account.controller'
 import { CreateQuestionController } from '~/infra/http/controllers/create-question.controller'
 import { FetchRecentQuestionsController } from '~/infra/http/controllers/fetch-recent-questions.controller'
+import { GetQuestionBySlugController } from '~/infra/http/controllers/get-question-by-slug.controller'
 
 // Providers
 import { CreateQuestionUseCase } from '~/domain/forum/application/use-cases/question/create-question'
 import { FetchRecentQuestionsUseCase } from '~/domain/forum/application/use-cases/question/fetch-recent-questions'
 import { AuthenticateStudentUseCase } from '~/domain/forum/application/use-cases/account/authenticate-student'
 import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/account/register-student'
+import { GetQuestionBySlugUseCase } from '~/domain/forum/application/use-cases/question/get-question-by-slug'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,12 +25,14 @@ import { RegisterStudentUseCase } from '~/domain/forum/application/use-cases/acc
     AuthenticateController,
     CreateQuestionController,
     FetchRecentQuestionsController,
+    GetQuestionBySlugController,
   ],
   providers: [
     RegisterStudentUseCase,
+    AuthenticateStudentUseCase,
     CreateQuestionUseCase,
     FetchRecentQuestionsUseCase,
-    AuthenticateStudentUseCase,
+    GetQuestionBySlugUseCase,
   ],
 })
 export class HTTPModule {}
