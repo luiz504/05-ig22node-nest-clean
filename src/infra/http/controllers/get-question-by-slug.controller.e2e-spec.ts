@@ -22,10 +22,10 @@ describe('Get Question by Slug (e2e)', () => {
     }).compile()
 
     app = moduleRef.createNestApplication()
-
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+
     await app.init()
   })
   test('[GET] /questions/:slug', async () => {
