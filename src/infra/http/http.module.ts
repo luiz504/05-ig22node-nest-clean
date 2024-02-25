@@ -16,6 +16,7 @@ import { AnswerQuestionController } from '~/infra/http/controllers/answer-questi
 import { EditAnswerController } from '~/infra/http/controllers/edit-answer.controller'
 import { DeleteAnswerController } from '~/infra/http/controllers/delete-answer.controller'
 import { FetchQuestionAnswersController } from '~/infra/http/controllers/fetch-question-answers.controller'
+import { ChooseQuestionBestAnswerController } from '~/infra/http/controllers/choose-question-best-asnwer.controller'
 
 // Providers
 import { CreateQuestionUseCase } from '~/domain/forum/application/use-cases/question/create-question'
@@ -29,6 +30,7 @@ import { AnswerQuestionUseCase } from '~/domain/forum/application/use-cases/answ
 import { EditAnswerUseCase } from '~/domain/forum/application/use-cases/answer/edit-answer'
 import { DeleteAnswerUseCase } from '~/domain/forum/application/use-cases/answer/delete-answer'
 import { FetchQuestionAnswersUseCase } from '~/domain/forum/application/use-cases/answer/fetch-question-answers'
+import { ChooseQuestionBestAnswerUseCase } from '~/domain/forum/application/use-cases/question/choose-question-best-answer'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -44,6 +46,7 @@ import { FetchQuestionAnswersUseCase } from '~/domain/forum/application/use-case
     EditAnswerController,
     DeleteAnswerController,
     FetchQuestionAnswersController,
+    ChooseQuestionBestAnswerController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -57,6 +60,7 @@ import { FetchQuestionAnswersUseCase } from '~/domain/forum/application/use-case
     EditAnswerUseCase,
     DeleteAnswerUseCase,
     FetchQuestionAnswersUseCase,
+    ChooseQuestionBestAnswerUseCase,
   ],
 })
 export class HTTPModule {}
