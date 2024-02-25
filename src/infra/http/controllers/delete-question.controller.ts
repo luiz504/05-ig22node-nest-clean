@@ -34,7 +34,7 @@ export class DeleteQuestionController {
       const error = result.value
       switch (error.constructor) {
         case NotAllowedError:
-          throw new ForbiddenException()
+          throw new ForbiddenException(error.message)
         default:
           throw new BadRequestException()
       }
