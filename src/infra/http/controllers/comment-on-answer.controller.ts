@@ -36,8 +36,8 @@ export class CommentOnAnswerController {
     const { sub: userId } = user
 
     const result = await this.commentOnAnswer.execute({
-      answerId,
       authorId: userId,
+      answerId,
       content,
     })
 
