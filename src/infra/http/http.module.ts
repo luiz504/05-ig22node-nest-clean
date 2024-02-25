@@ -14,6 +14,7 @@ import { EditQuestionController } from '~/infra/http/controllers/edit-question.c
 import { DeleteQuestionController } from '~/infra/http/controllers/delete-question.controller'
 import { AnswerQuestionController } from '~/infra/http/controllers/answer-question.controller'
 import { EditAnswerController } from '~/infra/http/controllers/edit-answer.controller'
+import { DeleteAnswerController } from '~/infra/http/controllers/delete-answer.controller'
 
 // Providers
 import { CreateQuestionUseCase } from '~/domain/forum/application/use-cases/question/create-question'
@@ -25,6 +26,7 @@ import { EditQuestionUseCase } from '~/domain/forum/application/use-cases/questi
 import { DeleteQuestionUseCase } from '~/domain/forum/application/use-cases/question/delete-question'
 import { AnswerQuestionUseCase } from '~/domain/forum/application/use-cases/answer/answer-question'
 import { EditAnswerUseCase } from '~/domain/forum/application/use-cases/answer/edit-answer'
+import { DeleteAnswerUseCase } from '~/domain/forum/application/use-cases/answer/delete-answer'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -38,6 +40,7 @@ import { EditAnswerUseCase } from '~/domain/forum/application/use-cases/answer/e
     DeleteQuestionController,
     AnswerQuestionController,
     EditAnswerController,
+    DeleteAnswerController,
   ],
   providers: [
     RegisterStudentUseCase,
@@ -49,6 +52,7 @@ import { EditAnswerUseCase } from '~/domain/forum/application/use-cases/answer/e
     DeleteQuestionUseCase,
     AnswerQuestionUseCase,
     EditAnswerUseCase,
+    DeleteAnswerUseCase,
   ],
 })
 export class HTTPModule {}
