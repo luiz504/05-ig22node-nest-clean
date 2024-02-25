@@ -11,20 +11,21 @@ To get started, follow these steps:
 
 1. Set up Docker:
 
-Make sure you have Docker Engine or Docker Desktop installed.
-Run the following command to configure the Database Containers:
+    Make sure you have Docker Engine or Docker Desktop installed.
+
+    Run the following command to configure the Database Containers:
 
     ```bash
         docker compose up -D
     ```
 
-2. Install Dependencies:
+1. Install Dependencies:
 
    ```bash
-       npm install
+        npm install
    ```
 
-3. Run Prisma Migrations:
+2. Run Prisma Migrations:
 
 Depending on your environment (Dev, Prod, or Test), run the appropriate Prisma migration command:
 
@@ -42,8 +43,8 @@ Depending on your environment (Dev, Prod, or Test), run the appropriate Prisma m
 
 4. Set up Environment Variables:
 
-Create a `.env` file based on `.env.example` Generate necessary keys using the
-instructions provided in the `RSA256 Secrets Generation Commands` section below.
+    Create a `.env` file based on `.env.example` Generate necessary keys using the
+    instructions provided in the `RSA256 Secrets Generation Commands` section below.
 
 5. Firing up the Server:
    Start the server based on your environment:
