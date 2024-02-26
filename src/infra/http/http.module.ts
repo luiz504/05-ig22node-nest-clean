@@ -43,6 +43,7 @@ import { CommentOnAnswerUseCase } from '~/domain/forum/application/use-cases/com
 import { DeleteAnswerCommentsUseCase } from '~/domain/forum/application/use-cases/comment-answer/delete-answer-comment'
 import { FetchQuestionCommentsUseCase } from '~/domain/forum/application/use-cases/comment-question/fetch-question-comments'
 import { FetchAnswerCommentsUseCase } from '~/domain/forum/application/use-cases/comment-answer/fetch-answer-comments'
+import { UploadAttachmentController } from '~/infra/http/controllers/upload-attachment.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -65,6 +66,7 @@ import { FetchAnswerCommentsUseCase } from '~/domain/forum/application/use-cases
     DeleteAnswerCommentController,
     FetchQuestionCommentsController,
     FetchAnswerCommentsController,
+    UploadAttachmentController,
   ],
   providers: [
     RegisterStudentUseCase,
