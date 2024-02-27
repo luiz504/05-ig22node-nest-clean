@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 // Modules
 import { CryptographyModule } from '~/infra/cryptography/cryptography.module'
 import { DatabaseModule } from '~/infra/database/database.module'
+import { StorageModule } from '~/infra/storage/storage.module'
 
 // Controllers
 import { AuthenticateController } from '~/infra/http/controllers/authenticate.controller'
@@ -23,8 +24,9 @@ import { CommentOnAnswerController } from '~/infra/http/controllers/comment-on-a
 import { DeleteAnswerCommentController } from '~/infra/http/controllers/delete-answer-comment.controller'
 import { FetchQuestionCommentsController } from '~/infra/http/controllers/fetch-question-comments.controller'
 import { FetchAnswerCommentsController } from '~/infra/http/controllers/fetch-answer-comments.controller'
+import { UploadAttachmentController } from '~/infra/http/controllers/upload-attachment.controller'
 
-// Providers
+// Providers - UseCases
 import { CreateQuestionUseCase } from '~/domain/forum/application/use-cases/question/create-question'
 import { FetchRecentQuestionsUseCase } from '~/domain/forum/application/use-cases/question/fetch-recent-questions'
 import { AuthenticateStudentUseCase } from '~/domain/forum/application/use-cases/account/authenticate-student'
@@ -43,10 +45,10 @@ import { CommentOnAnswerUseCase } from '~/domain/forum/application/use-cases/com
 import { DeleteAnswerCommentsUseCase } from '~/domain/forum/application/use-cases/comment-answer/delete-answer-comment'
 import { FetchQuestionCommentsUseCase } from '~/domain/forum/application/use-cases/comment-question/fetch-question-comments'
 import { FetchAnswerCommentsUseCase } from '~/domain/forum/application/use-cases/comment-answer/fetch-answer-comments'
-import { UploadAttachmentController } from '~/infra/http/controllers/upload-attachment.controller'
+import { UploadAndCreateAttachmentUseCase } from '~/domain/forum/application/use-cases/attachment/upload-and-create-attachment'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,
@@ -87,6 +89,7 @@ import { UploadAttachmentController } from '~/infra/http/controllers/upload-atta
     DeleteAnswerCommentsUseCase,
     FetchQuestionCommentsUseCase,
     FetchAnswerCommentsUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HTTPModule {}
