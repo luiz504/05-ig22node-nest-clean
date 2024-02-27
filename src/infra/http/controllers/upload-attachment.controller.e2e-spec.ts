@@ -8,7 +8,7 @@ import { DatabaseModule } from '~/infra/database/database.module'
 
 import { StudentFactory } from 'test/factories/make-student'
 
-describe('Upload Attachment (e2e)', () => {
+describe.only('Upload Attachment (e2e)', () => {
   let app: INestApplication
   let jwt: JwtService
   let studentFactory: StudentFactory
@@ -38,5 +38,8 @@ describe('Upload Attachment (e2e)', () => {
 
     // Assert
     expect(response.statusCode).toBe(201)
+    expect(response.body).toEqual({
+      attachmentId: expect.any(String),
+    })
   })
 })

@@ -36,7 +36,6 @@ export class UploadAndCreateAttachmentUseCase {
     }
 
     const { url } = await this.uploader.upload({ fileName, fileType, body })
-
     const attachment = Attachment.create({
       title: fileName,
       url,

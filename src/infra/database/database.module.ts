@@ -8,6 +8,7 @@ import { AnswerCommentsRepository } from '~/domain/forum/application/repositorie
 import { AnswersRepository } from '~/domain/forum/application/repositories/answers-repository'
 import { QuestionAttachmentsRepository } from '~/domain/forum/application/repositories/question-attachment-repository'
 import { QuestionCommentsRepository } from '~/domain/forum/application/repositories/question-comments-repository'
+import { AttachmentsRepository } from '~/domain/forum/application/repositories/attachment-repository'
 
 // prisma
 import { PrismaService } from '~/infra/database/prisma/prisma.service'
@@ -18,6 +19,7 @@ import { PrismaQuestionAttachmentsRepository } from '~/infra/database/prisma/rep
 import { PrismaQuestionCommentsRepository } from '~/infra/database/prisma/repositories/prisma-question-comments-repository'
 import { PrismaQuestionsRepository } from '~/infra/database/prisma/repositories/prisma-question-repository'
 import { PrismaStudentsRepository } from '~/infra/database/prisma/repositories/prisma-students-repository'
+import { PrismaAttachmentsRepository } from '~/infra/database/prisma/repositories/prisma-attachments-repository'
 
 // infra
 
@@ -49,6 +51,10 @@ import { PrismaStudentsRepository } from '~/infra/database/prisma/repositories/p
       provide: AnswerAttachmentsRepository,
       useClass: PrismaAnswerAttachmentsRepository,
     },
+    {
+      provide: AttachmentsRepository,
+      useClass: PrismaAttachmentsRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -59,6 +65,7 @@ import { PrismaStudentsRepository } from '~/infra/database/prisma/repositories/p
     AnswersRepository,
     AnswerCommentsRepository,
     AnswerAttachmentsRepository,
+    AttachmentsRepository,
   ],
 })
 export class DatabaseModule {}

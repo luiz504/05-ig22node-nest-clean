@@ -38,3 +38,16 @@ GET  {{baseUrl}}/questions?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
+###
+
+# @name upload_attachments
+POST {{baseUrl}}/attachments
+Content-Type: multipart/form-data;  boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{authToken}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="sample-uppload.jpeg"
+Content-Type: image/jpeg
+
+< ./test/e2e/sample-uppload.jpeg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
