@@ -30,33 +30,26 @@ export class UploadAttachmentController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async handle(@UploadedFile(fileValidationPipe) file: Express.Multer.File) {
-    console.log('file', file)
-    try {
-      const result = await this.uploadAndCreateAttachment.execute({
-        fileName: file.originalname,
-        fileType: file.mimetype,
-        body: file.buffer,
-      })
+    const result = await this.uploadAndCreateAttachment.execute({
+      fileName: file.originalname,
+      fileType: file.mimetype,
+      body: file.buffer,
+    })
 
-      if (result.isLeft()) {
-        const error = result.value
-        console.log('eee =>', error)
+    if (result.isLeft()) {
+      const error = result.value
 
-        switch (error.constructor) {
-          case InvalidAttachmentTypeError:
-            throw new UnsupportedMediaTypeException(error.message)
-          default:
-            throw new BadRequestException(error.message)
-        }
+      switch (error.constructor) {
+        case InvalidAttachmentTypeError:
+          throw new UnsupportedMediaTypeException(error.message)
+        default:
+          throw new BadRequestException(error.message)
       }
-      const { attachment } = result.value
+    }
+    const { attachment } = result.value
 
-      return {
-        attachmentId: attachment.id.toString(),
-      }
-    } catch (err) {
-      console.log('err', err)
-      throw new BadRequestException(err)
+    return {
+      attachmentId: attachment.id.toString(),
     }
   }
 }

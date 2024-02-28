@@ -13,8 +13,8 @@ import { EnvService } from '~/infra/env/env.service'
 export class R2Storage implements Uploader {
   private client: S3Client
 
-  constructor(private readonly envService: EnvService) {
-    const accountId = envService.get('AWS_ACCESS_KEY_ID')
+  constructor(private envService: EnvService) {
+    const accountId = envService.get('CLOUDFLARE_ACCOUNT_ID')
     const accessKeyId = envService.get('AWS_ACCESS_KEY_ID')
     const secretAccessKey = envService.get('AWS_SECRET_ACCESS_KEY')
 
