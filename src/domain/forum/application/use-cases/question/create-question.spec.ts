@@ -23,7 +23,7 @@ describe('Create Question Use Case', () => {
       authorId: 'some-author-id',
       content: 'Some content',
       title: 'Some Question',
-      attachmentIds: ['1', '2'],
+      attachmentsIds: ['1', '2'],
     })
 
     // Assert
@@ -46,7 +46,7 @@ describe('Create Question Use Case', () => {
       authorId: 'some-author-id',
       content: 'Some content',
       title: 'Some Question',
-      attachmentIds: ['1', '2'],
+      attachmentsIds: ['1', '2'],
     })
 
     // Assert
