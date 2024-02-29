@@ -1,5 +1,6 @@
 import { PaginationParams } from '~/core/repositories/pagination-params'
-import { QuestionComment } from '../../enterprise/entities/question-comment'
+
+import { QuestionComment } from '~/domain/forum/enterprise/entities/question-comment'
 
 export abstract class QuestionCommentsRepository {
   abstract findById(id: string): Promise<QuestionComment | null>

@@ -13,7 +13,7 @@ import { PrismaQuestionMapper } from '~/infra/database/prisma/mappers/prisma-que
 export class PrismaQuestionsRepository implements QuestionsRepository {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly questionAttachments: QuestionAttachmentsRepository,
+    private readonly questionAttachmentsRepository: QuestionAttachmentsRepository,
   ) {}
 
   async findById(id: string): Promise<Question | null> {
@@ -49,7 +49,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
     await this.prisma.question.create({ data })
 
-    await this.questionAttachments.createMany(question.attachments.getItems())
+    await this.questionAttachmentsRepository.createMany(
+      question.attachments.getItems(),
+    )
   }
 
   async save(question: Question): Promise<void> {
@@ -57,8 +59,10 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
     await Promise.all([
       this.prisma.question.update({ where: { id: data.id }, data }),
-      this.questionAttachments.createMany(question.attachments.getNewItems()),
-      this.questionAttachments.deleteMany(
+      this.questionAttachmentsRepository.createMany(
+        question.attachments.getNewItems(),
+      ),
+      this.questionAttachmentsRepository.deleteMany(
         question.attachments.getRemovedItems(),
       ),
     ])

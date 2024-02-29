@@ -1,4 +1,5 @@
 import { PaginationParams } from '~/core/repositories/pagination-params'
+
 import { Answer } from '~/domain/forum/enterprise/entities/answer'
 
 export abstract class AnswersRepository {
