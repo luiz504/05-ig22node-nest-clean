@@ -10,7 +10,7 @@ import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 const createQuestionBodySchema = z.object({
   title: z.string(),
   content: z.string(),
-  attachments: z.array(z.string().uuid()).optional().default([]),
+  attachments: z.array(z.string().uuid()),
 })
 
 type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>

@@ -15,7 +15,7 @@ interface EditQuestionUseCaseRequest {
   questionId: string
   title: string
   content: string
-  attachmentIds: string[]
+  attachmentsIds: string[]
 }
 
 type EditQuestionUseCaseResponse = Either<
@@ -36,7 +36,7 @@ export class EditQuestionUseCase {
     questionId,
     title,
     content,
-    attachmentIds,
+    attachmentsIds,
   }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
     const question = await this.questionRepository.findById(questionId)
 
@@ -55,7 +55,7 @@ export class EditQuestionUseCase {
       currentQuestionAttachments,
     )
 
-    const questionAttachments = attachmentIds.map((attachmentIds) => {
+    const questionAttachments = attachmentsIds.map((attachmentIds) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(attachmentIds),
         questionId: question.id,

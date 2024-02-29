@@ -36,11 +36,10 @@ export class PrismaQuestionAttachmentsRepository
     if (attachments.length === 0) return
 
     const attachmentsIds = attachments.map((attachments) =>
-      attachments.id.toString(),
+      attachments.attachmentId.toString(),
     )
     await this.prisma.attachment.deleteMany({
       where: { id: { in: attachmentsIds } },
     })
-    throw new Error('Method not implemented.')
   }
 }

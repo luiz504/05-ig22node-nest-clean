@@ -52,7 +52,7 @@ describe('Edit Question Use Case', () => {
       authorId: 'bruce-bennet',
       title: 'New Question Title',
       content: 'New Question Content',
-      attachmentIds: ['1', '3'],
+      attachmentsIds: ['1', '3'],
     })
 
     // Assert
@@ -88,7 +88,7 @@ describe('Edit Question Use Case', () => {
       authorId: 'iron-man',
       title: 'New Question Title',
       content: 'New Question Content',
-      attachmentIds: [],
+      attachmentsIds: [],
     })
 
     expect(result.isLeft()).toBe(true)
@@ -122,7 +122,7 @@ describe('Edit Question Use Case', () => {
       authorId: 'bruce-bennet',
       title: 'New Question Title',
       content: 'New Question Content',
-      attachmentIds: ['1', '3'],
+      attachmentsIds: ['1', '3'],
     })
 
     // Assert
