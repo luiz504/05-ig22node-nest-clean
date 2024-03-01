@@ -9,7 +9,7 @@ import { z } from 'zod'
 import { FetchQuestionCommentsUseCase } from '~/domain/forum/application/use-cases/comment-question/fetch-question-comments'
 
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
-import { CommentWithAuthorPresenter } from '~/infra/http/presenters/comment-with-author.presenter'
+import { CommentWithAuthorPresenter } from '~/infra/http/presenters/comment-with-author-presenter'
 
 const pageQueryParamSchema = z
   .string()

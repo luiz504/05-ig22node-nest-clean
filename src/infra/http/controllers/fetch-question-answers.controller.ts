@@ -10,7 +10,7 @@ import { z } from 'zod'
 import { FetchQuestionAnswersUseCase } from '~/domain/forum/application/use-cases/answer/fetch-question-answers'
 
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
-import { AnswerPresenter } from '~/infra/http/presenters/answer.presenter'
+import { AnswerPresenter } from '~/infra/http/presenters/answer-presenter'
 
 const pageQueryParamSchema = z
   .string()
