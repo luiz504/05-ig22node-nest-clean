@@ -1,15 +1,25 @@
-import { UniqueEntityID } from '~/core/entities/unique-entity-id'
-import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
-import { DeleteAnswerCommentsUseCase } from '../comment-answer/delete-answer-comment'
-import { makeAnswerComment } from 'test/factories/make-answer-comment'
-import { NotAllowedError } from '../../../../../core/errors/not-allowed-error'
+import { expect } from 'vitest'
 
+import { UniqueEntityID } from '~/core/entities/unique-entity-id'
+import { NotAllowedError } from '~/core/errors/not-allowed-error'
+
+import { DeleteAnswerCommentsUseCase } from '~/domain/forum/application/use-cases/comment-answer/delete-answer-comment'
+
+import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
+import { makeAnswerComment } from 'test/factories/make-answer-comment'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
+
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
 // SUT: System under test
 let sut: DeleteAnswerCommentsUseCase
 describe('Delete Answer Comment Use Case', () => {
   beforeEach(() => {
-    inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository()
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+
+    inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository(
+      inMemoryStudentsRepository,
+    )
     sut = new DeleteAnswerCommentsUseCase(inMemoryAnswerCommentsRepository)
   })
   it('should be able to delete a answer comment', async () => {
