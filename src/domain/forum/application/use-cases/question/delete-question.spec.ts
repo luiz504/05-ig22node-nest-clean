@@ -1,13 +1,17 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { DeleteQuestionUseCase } from '~/domain/forum/application/use-cases/question/delete-question'
+
+import { NotAllowedError } from '~/core/errors/not-allowed-error'
+import { UniqueEntityID } from '~/core/entities/unique-entity-id'
 
 import { makeQuestion } from 'test/factories/make-question'
-
-import { DeleteQuestionUseCase } from '../question/delete-question'
-import { UniqueEntityID } from '~/core/entities/unique-entity-id'
-import { NotAllowedError } from '~/core/errors/not-allowed-error'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
+let inMemoryAttachmentRepository: InMemoryAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 
@@ -15,10 +19,14 @@ let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: DeleteQuestionUseCase
 describe('Delete Question Use Case', () => {
   beforeEach(() => {
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+    inMemoryAttachmentRepository = new InMemoryAttachmentsRepository()
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryStudentsRepository,
+      inMemoryAttachmentRepository,
     )
     sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
   })

@@ -1,13 +1,17 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { EditQuestionUseCase } from '~/domain/forum/application/use-cases/question/edit-question'
 
 import { UniqueEntityID } from '~/core/entities/unique-entity-id'
-import { EditQuestionUseCase } from '../question/edit-question'
 import { NotAllowedError } from '~/core/errors/not-allowed-error'
 
-import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
-import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { makeQuestion } from 'test/factories/make-question'
+import { makeQuestionAttachment } from 'test/factories/make-question-attachment'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
+let inMemoryAttachmentRepository: InMemoryAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 
@@ -15,10 +19,14 @@ let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: EditQuestionUseCase
 describe('Edit Question Use Case', () => {
   beforeEach(() => {
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+    inMemoryAttachmentRepository = new InMemoryAttachmentsRepository()
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryStudentsRepository,
+      inMemoryAttachmentRepository,
     )
     sut = new EditQuestionUseCase(
       inMemoryQuestionsRepository,
