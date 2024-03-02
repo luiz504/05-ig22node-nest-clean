@@ -72,7 +72,7 @@ import { PrismaNotificationsRepository } from '~/infra/database/prisma/repositor
     AnswerCommentsRepository,
     AnswerAttachmentsRepository,
     AttachmentsRepository,
-    PrismaNotificationsRepository,
+    NotificationsRepository,
   ],
 })
 export class DatabaseModule {}
