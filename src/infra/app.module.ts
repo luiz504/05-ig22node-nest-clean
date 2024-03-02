@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module'
 import { HTTPModule } from './http/http.module'
 import { EnvModule } from '~/infra/env/env.module'
 import { StorageModule } from '~/infra/storage/storage.module'
+import { EventsModule } from '~/infra/events/events.module'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { StorageModule } from '~/infra/storage/storage.module'
     HTTPModule,
     EnvModule,
     StorageModule,
+    EventsModule,
   ],
 })
 export class AppModule {}
