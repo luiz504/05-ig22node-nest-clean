@@ -9,22 +9,25 @@ import { DatabaseModule } from '~/infra/database/database.module'
 import { AppModule } from '~/infra/app.module'
 
 import { StudentFactory } from 'test/factories/make-student'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 describe('Create Question (e2e)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
   let studentFactory: StudentFactory
+  let attachmentFactory: AttachmentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory],
+      providers: [StudentFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
 
     await app.init()
   })
@@ -32,7 +35,15 @@ describe('Create Question (e2e)', () => {
     // Prepare
     const user = await studentFactory.makePrismaStudent()
     const accessToken = jwt.sign({ sub: user.id.toString() })
-    const data = { title: 'Some question', content: 'Question Content' }
+
+    const attachment1 = await attachmentFactory.makePrismaAttachment()
+    const attachment2 = await attachmentFactory.makePrismaAttachment()
+
+    const data = {
+      title: 'Some question',
+      content: 'Question Content',
+      attachments: [attachment1.id.toString(), attachment2.id.toString()],
+    }
 
     // Actions
     const response = await request(app.getHttpServer())
@@ -47,5 +58,11 @@ describe('Create Question (e2e)', () => {
     })
 
     expect(questionOnDatabase).toBeTruthy()
+
+    const attachmentsOnDatabase = await prisma.attachment.findMany({
+      where: { questionId: questionOnDatabase?.id },
+    })
+
+    expect(attachmentsOnDatabase.length).toBe(2)
   })
 })

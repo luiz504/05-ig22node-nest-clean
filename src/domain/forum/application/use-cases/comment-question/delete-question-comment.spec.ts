@@ -1,17 +1,23 @@
 import { UniqueEntityID } from '~/core/entities/unique-entity-id'
 import { NotAllowedError } from '~/core/errors/not-allowed-error'
+
 import { DeleteQuestionCommentsUseCase } from '~/domain/forum/application/use-cases/comment-question/delete-question-comment'
 
 import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository'
 import { makeQuestionComment } from 'test/factories/make-question-comment'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
 // SUT: System under test
 let sut: DeleteQuestionCommentsUseCase
 describe('Delete Question Comment Use Case', () => {
   beforeEach(() => {
-    inMemoryQuestionCommentsRepository =
-      new InMemoryQuestionCommentsRepository()
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
+
+    inMemoryQuestionCommentsRepository = new InMemoryQuestionCommentsRepository(
+      inMemoryStudentsRepository,
+    )
     sut = new DeleteQuestionCommentsUseCase(inMemoryQuestionCommentsRepository)
   })
   it('should be able to delete a question comment', async () => {

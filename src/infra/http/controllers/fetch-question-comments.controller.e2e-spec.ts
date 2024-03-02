@@ -13,7 +13,6 @@ import { QuestionCommentFactory } from 'test/factories/make-question-comment'
 
 describe('Fetch Question Comments (e2e)', () => {
   let app: INestApplication
-
   let jwt: JwtService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
@@ -36,7 +35,7 @@ describe('Fetch Question Comments (e2e)', () => {
   })
   test('[GET] /questions/:questionId/answers', async () => {
     // Prepare
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({ name: 'John Doe' })
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const question = await questionFactory.makePrismaQuestion({
@@ -66,8 +65,14 @@ describe('Fetch Question Comments (e2e)', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
       comments: expect.arrayContaining([
-        expect.objectContaining({ content: 'Question Comment 01 Content' }),
-        expect.objectContaining({ content: 'Question Comment 02 Content' }),
+        expect.objectContaining({
+          content: 'Question Comment 01 Content',
+          authorName: user.name,
+        }),
+        expect.objectContaining({
+          content: 'Question Comment 02 Content',
+          authorName: user.name,
+        }),
       ]),
     })
   })

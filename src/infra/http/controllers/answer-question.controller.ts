@@ -13,7 +13,10 @@ import { CurrentUser } from '~/infra/auth/current-user-decorator'
 import { UserPayload } from '~/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 
-const createAnswerQuestionBodySchema = z.object({ content: z.string().min(1) })
+const createAnswerQuestionBodySchema = z.object({
+  content: z.string().min(1),
+  attachments: z.array(z.string().uuid()),
+})
 
 type CreateAnswerQuestionBodySchema = z.infer<
   typeof createAnswerQuestionBodySchema
@@ -30,14 +33,14 @@ export class AnswerQuestionController {
     @CurrentUser() user: UserPayload,
     @Param('questionId') questionId: string,
   ) {
-    const { content } = body
+    const { content, attachments } = body
     const { sub: userId } = user
 
     const result = await this.createAnswer.execute({
       content,
       questionId,
       authorId: userId,
-      attachmentIds: [],
+      attachmentsIds: attachments,
     })
 
     if (result.isLeft()) {

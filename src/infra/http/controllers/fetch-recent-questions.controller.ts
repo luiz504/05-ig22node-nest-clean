@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { FetchRecentQuestionsUseCase } from '~/domain/forum/application/use-cases/question/fetch-recent-questions'
 
 import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
-import { QuestionPresenter } from '~/infra/http/presenters/question.presenter'
+import { QuestionPresenter } from '~/infra/http/presenters/question-presenter'
 
 const pageQueryParamSchema = z
   .string()

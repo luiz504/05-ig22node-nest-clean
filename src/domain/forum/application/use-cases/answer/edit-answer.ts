@@ -13,7 +13,7 @@ interface EditAnswerUseCaseRequest {
   authorId: string
   answerId: string
   content: string
-  attachmentIds: string[]
+  attachmentsIds: string[]
 }
 type EditAnswerUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
@@ -32,7 +32,7 @@ export class EditAnswerUseCase {
     authorId,
     answerId,
     content,
-    attachmentIds,
+    attachmentsIds,
   }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
     const answer = await this.answerRepository.findById(answerId)
 
@@ -51,7 +51,7 @@ export class EditAnswerUseCase {
       currentAnswerAttachments,
     )
 
-    const answerAttachments = attachmentIds.map((attachmentsId) => {
+    const answerAttachments = attachmentsIds.map((attachmentsId) => {
       return AnswerAttachment.create({
         attachmentId: new UniqueEntityID(attachmentsId),
         answerId: answer.id,

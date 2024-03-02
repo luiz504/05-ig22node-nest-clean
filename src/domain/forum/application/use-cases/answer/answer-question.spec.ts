@@ -23,7 +23,7 @@ describe('Create Answer Question Use Case', () => {
       authorId: 'author-id',
       questionId: 'question-id',
       content: 'Some content',
-      attachmentIds: ['1', '2'],
+      attachmentsIds: ['1', '2'],
     })
 
     // Assert
@@ -33,6 +33,23 @@ describe('Create Answer Question Use Case', () => {
       inMemoryAnswerRepository.items[0].attachments.currentItems,
     ).toHaveLength(2)
     expect(inMemoryAnswerRepository.items[0].attachments.currentItems).toEqual([
+      expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityID('2') }),
+    ])
+  })
+  it('should be able to persist attachments when a answer is created', async () => {
+    // Act
+    const result = await sut.execute({
+      authorId: 'author-id',
+      questionId: 'question-id',
+      content: 'Some content',
+      attachmentsIds: ['1', '2'],
+    })
+
+    // Assert
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryAnswerAttachmentsRepository.items).toHaveLength(2)
+    expect(inMemoryAnswerAttachmentsRepository.items).toEqual([
       expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
       expect.objectContaining({ attachmentId: new UniqueEntityID('2') }),
     ])
