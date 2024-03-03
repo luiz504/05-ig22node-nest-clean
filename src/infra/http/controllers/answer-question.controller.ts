@@ -5,6 +5,14 @@ import {
   Param,
   Post,
 } from '@nestjs/common'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
+import { zodToOpenAPI } from 'nestjs-zod'
 import { z } from 'zod'
 
 import { AnswerQuestionUseCase } from '~/domain/forum/application/use-cases/answer/answer-question'
@@ -15,7 +23,7 @@ import { ZodValidationPipe } from '~/infra/http/pipes/zod-validation.pipe'
 
 const createAnswerQuestionBodySchema = z.object({
   content: z.string().min(1),
-  attachments: z.array(z.string().uuid()),
+  attachments: z.array(z.string().uuid()).optional().default([]),
 })
 
 type CreateAnswerQuestionBodySchema = z.infer<
@@ -23,10 +31,15 @@ type CreateAnswerQuestionBodySchema = z.infer<
 >
 
 const bodyValidationPipe = new ZodValidationPipe(createAnswerQuestionBodySchema)
+@ApiTags('Answers')
+@ApiBearerAuth()
 @Controller('/questions/:questionId/answers')
 export class AnswerQuestionController {
   constructor(private readonly createAnswer: AnswerQuestionUseCase) {}
 
+  @ApiOperation({ description: 'Create Answer to a Question' })
+  @ApiBody({ schema: zodToOpenAPI(createAnswerQuestionBodySchema) })
+  @ApiResponse({ status: 201, description: 'Answer created with success!' })
   @Post()
   async handle(
     @Body(bodyValidationPipe) body: CreateAnswerQuestionBodySchema,

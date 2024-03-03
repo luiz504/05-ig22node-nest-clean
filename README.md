@@ -3,7 +3,14 @@
 Welcome to Ignite Forum! This is a forum API designed to enhance my backend
 skills and practice various design patterns, concepts, and implementations such
 as DDD, SOLID, and Clean Code. It is built using the NestJS framework, powered
-by NodeJS and TypeScript, and utilizes PostgreSQL for data persistence.
+by NodeJS and TypeScript, and utilizes PostgreSQL for data persistence and Redis for caching and Cloudflare R2 (Aws APi) to store images.
+
+## Api Documentation
+
+With the server running access:
+ [Open Documentation](http://localhost:3333/api)
+
+note: Under construction...
 
 ## Requirements and instructions
 
@@ -19,13 +26,13 @@ To get started, follow these steps:
         docker compose up -D
     ```
 
-1. Install Dependencies:
+2. Install Dependencies:
 
    ```bash
         npm install
    ```
 
-2. Run Prisma Migrations:
+3. Run Prisma Migrations:
 
 Depending on your environment (Dev, Prod, or Test), run the appropriate Prisma migration command:
 
@@ -45,6 +52,7 @@ Depending on your environment (Dev, Prod, or Test), run the appropriate Prisma m
 
     Create a `.env` file based on `.env.example` Generate necessary keys using the
     instructions provided in the `RSA256 Secrets Generation Commands` section below.
+    AWS and CloudFlare environments are required too.
 
 5. Firing up the Server:
    Start the server based on your environment:
