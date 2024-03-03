@@ -5,7 +5,7 @@ export class QuestionDetailsPresenter {
   static toHTTP(questionDetails: QuestionDetails) {
     return {
       questionId: questionDetails.questionId.toString(),
-      authorId: questionDetails.authorId,
+      authorId: questionDetails.authorId.toString(),
       bestAnswerId: questionDetails.bestAnswerId?.toString() || null,
       authorName: questionDetails.authorName,
       title: questionDetails.title,
